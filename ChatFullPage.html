@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Page</title>
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .chat-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      .chat-header,
+      .chat-footer {
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+      }
+      .chat-body {
+        background-color: #333;
+        color: white;
+        overflow-y: auto;
+        flex-grow: 1;
+        padding: 10px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-container">
+      <div class="chat-header">
+        <img id="chatBotLogo" src="image.png" alt="Bot Logo" />
+        <span id="chatBotName">FAM AI Engineer</span>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <!-- Chat messages will be displayed here -->
+      </div>
+      <div class="chat-footer">
+        <input type="text" id="chatInput" placeholder="Message..." />
+        <button onclick="sendMessage()">Enviar</button>
+      </div>
+    </div>
+    <script src="chat.js"></script>
+  </body>
+</html>
