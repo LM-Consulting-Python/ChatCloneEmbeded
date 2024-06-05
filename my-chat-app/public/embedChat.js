@@ -55,26 +55,6 @@
   }
 
   window.addEventListener("DOMContentLoaded", function () {
-    var chatPopup = createChatPopup(window.embeddedChatbotConfig);
-
-    var openChatButton = document.createElement("button");
-    openChatButton.innerText = "Abrir Chat";
-    openChatButton.style.padding = "10px 20px";
-    openChatButton.style.fontSize = "16px";
-    openChatButton.style.border = "none";
-    openChatButton.style.backgroundColor = "#007bff";
-    openChatButton.style.color = "#fff";
-    openChatButton.style.cursor = "pointer";
-    openChatButton.style.borderRadius = "5px";
-    openChatButton.style.position = "fixed";
-    openChatButton.style.bottom = "20px";
-    openChatButton.style.right = "20px";
-    openChatButton.style.zIndex = "999";
-
-    openChatButton.onclick = function () {
-      chatPopup.style.display = "block";
-    };
-
-    document.body.appendChild(openChatButton);
+    createChatPopup(window.embeddedChatbotConfig);
   });
 })();
