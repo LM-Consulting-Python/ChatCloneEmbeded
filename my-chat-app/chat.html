@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Embeddado</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+      .chat-container {
+        width: 350px;
+        height: 500px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      .chat-header {
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+      .chat-messages {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+        border-bottom: 1px solid #ccc;
+      }
+      .chat-message {
+        position: relative;
+        padding: 8px 10px;
+        margin: 5px 0;
+        border-radius: 5px;
+        background-color: #e9e9eb;
+        max-width: 80%;
+        word-wrap: break-word;
+      }
+      .chat-message.self {
+        background-color: #007bff;
+        color: #fff;
+        align-self: flex-end;
+      }
+      .chat-message button {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: transparent;
+        border: none;
+        color: #000;
+        cursor: pointer;
+      }
+      .chat-message.self button {
+        color: #fff;
+      }
+      .chat-input {
+        display: flex;
+      }
+      .chat-input input {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-top: 1px solid #ccc;
+        border-bottom-left-radius: 10px;
+      }
+      .chat-input button {
+        padding: 10px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+      .chat-input button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-container">
+      <div class="chat-header">Chat</div>
+      <div class="chat-messages" id="chatMessages">
+        <!-- As mensagens do chat aparecerão aqui -->
+      </div>
+      <div class="chat-input">
+        <input
+          type="text"
+          id="chatInput"
+          placeholder="Digite sua mensagem..."
+        />
+        <button id="chatSendButton">Enviar</button>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", (event) => {
+        loadMessages();
+      });
+
+      document
+        .getElementById("chatSendButton")
+        .addEventListener("click", sendMessage);
+
+      document
+        .getElementById("chatInput")
+        .addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            sendMessage();
+          }
+        });
+
+      function sendMessage() {
+        const input = document.getElementById("chatInput");
+        const message = input.value.trim();
+
+        if (message === "") {
+          return;
+        }
+
+        addMessage(message, true);
+
+        input.value = "";
+        document.getElementById("chatMessages").scrollTop =
+          document.getElementById("chatMessages").scrollHeight;
+
+        saveMessage(message);
+      }
+
+      function addMessage(message, isSelf) {
+        const chatMessages = document.getElementById("chatMessages");
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("chat-message");
+        if (isSelf) {
+          messageElement.classList.add("self");
+        }
+        messageElement.textContent = message;
+
+        const deleteButton = document.createElement("button");
+        deleteButton.innerHTML = "×";
+        deleteButton.onclick = function () {
+          deleteMessage(messageElement);
+        };
+        messageElement.appendChild(deleteButton);
+
+        chatMessages.appendChild(messageElement);
+      }
+
+      function saveMessage(message) {
+        let messages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+        messages.push({ text: message, self: true });
+        localStorage.setItem("chatMessages", JSON.stringify(messages));
+      }
+
+      function loadMessages() {
+        let messages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+        messages.forEach((message) => {
+          addMessage(message.text, message.self);
+        });
+        document.getElementById("chatMessages").scrollTop =
+          document.getElementById("chatMessages").scrollHeight;
+      }
+
+      function deleteMessage(messageElement) {
+        const chatMessages = document.getElementById("chatMessages");
+        chatMessages.removeChild(messageElement);
+        updateLocalStorage();
+      }
+
+      function updateLocalStorage() {
+        const messageElements = document.querySelectorAll(".chat-message");
+        let messages = [];
+        messageElements.forEach((messageElement) => {
+          const messageText = messageElement.childNodes[0].nodeValue;
+          messages.push({
+            text: messageText,
+            self: messageElement.classList.contains("self"),
+          });
+        });
+        localStorage.setItem("chatMessages", JSON.stringify(messages));
+      }
+    </script>
+  </body>
+</html>
