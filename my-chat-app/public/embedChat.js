@@ -43,6 +43,7 @@
     closeButton.style.fontSize = "20px";
     closeButton.style.cursor = "pointer";
     closeButton.onclick = function () {
+      console.log("Botão de fechar clicado");
       chatPopup.style.display = "none";
     };
 
@@ -62,6 +63,36 @@
     chatPopup.appendChild(iframe);
     // Adicionar o popup de chat ao corpo do documento
     document.body.appendChild(chatPopup);
+
+    // Adicionar evento de clique ao botão de chat
+    var openChatButton = document.createElement("button");
+    openChatButton.innerText = "Abrir Chat";
+    openChatButton.style.padding = "10px 20px";
+    openChatButton.style.fontSize = "16px";
+    openChatButton.style.border = "none";
+    openChatButton.style.backgroundColor = "#007bff";
+    openChatButton.style.color = "#fff";
+    openChatButton.style.cursor = "pointer";
+    openChatButton.style.borderRadius = "5px";
+    openChatButton.style.position = "fixed";
+    openChatButton.style.bottom = "20px";
+    openChatButton.style.right = "20px";
+    openChatButton.style.zIndex = "999";
+
+    openChatButton.addEventListener("click", function () {
+      console.log("Botão de chat clicado");
+      var chatPopup = document.getElementById("chatPopup");
+      console.log("Elemento chatPopup:", chatPopup);
+      if (chatPopup) {
+        console.log("Alterando estilo de exibição para 'block'");
+        chatPopup.style.display = "block";
+      } else {
+        console.log("Elemento chatPopup não encontrado");
+      }
+    });
+
+    // Adicionar botão de chat ao corpo do documento
+    document.body.appendChild(openChatButton);
 
     return chatPopup;
   }

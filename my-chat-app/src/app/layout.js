@@ -1,7 +1,5 @@
-import { Inter } from "next/font/google";
-import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+// Importe a fonte Inter diretamente do CSS do Google Fonts ou usando um pacote npm
+import "../styles/globals.css"; // Importe os estilos globais
 
 export const metadata = {
   title: "Create Next App",
@@ -11,7 +9,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <head>
+        {/* Inclua aqui as importações de fontes ou outros metadados */}
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+        {/* Outros metadados... */}
+      </head>
+      <body>{children}</body>
     </html>
   );
 }
